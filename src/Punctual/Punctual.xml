@@ -9,5 +9,247 @@
             Extension methods for <see cref="T:System.Enum"/>
             </summary>
         </member>
+        <member name="M:Punctual.EnumExtensions.GetFlags(System.Enum,System.Boolean)">
+            <summary>
+            Gets a list of flags
+            </summary>
+            <param name="e"></param>
+            <param name="singleBitFlagsOnly"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.HostedServiceBase`1">
+            <summary>
+            Base class for creating hosted services that perform an action
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+        </member>
+        <member name="F:Punctual.HostedServiceBase`1._scheduledActionTokenSource">
+            <summary>
+            Cancellation token source for the scheduled action
+            </summary>
+        </member>
+        <member name="F:Punctual.HostedServiceBase`1._HostedServiceTokenSource">
+            <summary>
+            Cancellation token source for the hosted service
+            </summary>
+        </member>
+        <member name="F:Punctual.HostedServiceBase`1._scheduledActionTask">
+            <summary>
+            Task to track the scheduled action
+            </summary>
+        </member>
+        <member name="F:Punctual.HostedServiceBase`1._scheduledAction">
+            <summary>
+            Scheduled action that will be performed
+            </summary>
+        </member>
+        <member name="F:Punctual.HostedServiceBase`1._isStarted">
+            <summary>
+            Whether or not the service is started
+            </summary>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.#ctor(`0)">
+            <summary>
+            Initializes a hosted service with the action to perform
+            </summary>
+            <param name="scheduledAction"></param>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Starts the hosted service
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Stops the hosted service
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.RunAction(System.Threading.CancellationToken)">
+            <summary>
+            Runs the action the hosted service is configured to perform
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.ExecuteScheduledActionAsync(System.Threading.CancellationToken,System.Threading.CancellationToken)">
+            <summary>
+            Implementation for executing the action the hosted service handles
+            </summary>
+            <param name="HostedServiceCancellationToken"></param>
+            <param name="scheduledActionCancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.HostedServiceOptionsChangeTokenSource`2">
+            <summary>
+            Change token source used to trigger changes in the configuration
+            </summary>
+            <typeparam name="TOptions"></typeparam>
+            <typeparam name="TSchduler"></typeparam>
+        </member>
+        <member name="M:Punctual.HostedServiceOptionsChangeTokenSource`2.#ctor(Punctual.IHostedServiceConfiguration{`1})">
+            <summary>
+            Initializes a new change token source
+            </summary>
+            <param name="HostedServiceConfiguration"></param>
+        </member>
+        <member name="T:Punctual.IHostedService`1">
+            <summary>
+            Interface for a hosted service that can perform an action
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+        </member>
+        <member name="T:Punctual.IHostedServiceConfiguration`1">
+            <summary>
+            Interface that holds configurations for a hosted service
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Punctual.IHostedServiceConfiguration`1.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="T:Punctual.IHostedServiceOptions">
+            <summary>
+            Interface for hosted service options
+            </summary>
+        </member>
+        <member name="T:Punctual.IPunctualBuilder">
+            <summary>
+            Interface for a builder used to configure Punctual
+            </summary>
+        </member>
+        <member name="P:Punctual.IPunctualBuilder.Services">
+            <summary>
+            Service collection for Punctual
+            </summary>
+        </member>
+        <member name="T:Punctual.IScheduledAction">
+            <summary>
+            Interface used to implement a scheduled action that can be performed by a hosted service
+            </summary>
+        </member>
+        <member name="M:Punctual.IScheduledAction.Action(System.Threading.CancellationToken)">
+            <summary>
+            The action to perform
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.IScheduledActionConfigurationFactory">
+            <summary>
+            Interface for a factory that returns configurations for a scheduled action
+            </summary>
+        </member>
+        <member name="M:Punctual.IScheduledActionConfigurationFactory.GetConfiguration(System.Type)">
+            <summary>
+            Returns a configuration based on the type of scheduled action
+            </summary>
+            <param name="ScheduledActionType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.PunctualBuilderExtensions">
+            <summary>
+            Extensions used to configure Punctual
+            </summary>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.AddConfiguration(Punctual.IPunctualBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds the configuration used to configure Punctual
+            </summary>
+            <param name="builder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.Add``4(Punctual.IPunctualBuilder)">
+            <summary>
+            Adds a new hosted service with options and the action to perform
+            </summary>
+            <typeparam name="THostedService"></typeparam>
+            <typeparam name="THostedServiceOptions"></typeparam>
+            <typeparam name="THostedServiceOptionsSetup"></typeparam>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.Add``4(Punctual.IPunctualBuilder,System.Action{``1})">
+            <summary>
+            Adds a new hosted service with options and the action to perform
+            </summary>
+            <typeparam name="THostedService"></typeparam>
+            <typeparam name="THostedServiceOptions"></typeparam>
+            <typeparam name="THostedServiceOptionsSetup"></typeparam>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <param name="configure"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.AddWeekly``1(Punctual.IPunctualBuilder)">
+            <summary>
+            Adds a hosted service that will perform actions on a weekly schedule
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.AddWeekly``1(Punctual.IPunctualBuilder,System.Action{Punctual.Weekly.WeeklyHostedServiceOptions{``0}})">
+            <summary>
+            Adds a hosted service that will perform actions on a weekly schedule
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <param name="configure"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.AddIntervally``1(Punctual.IPunctualBuilder)">
+            <summary>
+            Adds a hosted service that will perform actions on an interval
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Punctual.PunctualBuilderExtensions.AddIntervally``1(Punctual.IPunctualBuilder,System.Action{Punctual.Intervally.IntervallyHostedServiceOptions{``0}})">
+            <summary>
+            Adds a hosted service that will perform actions on an interval
+            </summary>
+            <typeparam name="TScheduledAction"></typeparam>
+            <param name="builder"></param>
+            <param name="configure"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.PunctualServiceCollectionExtensions">
+            <summary>
+            Extensions used to configure Punctual
+            </summary>
+        </member>
+        <member name="M:Punctual.PunctualServiceCollectionExtensions.AddPunctual(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Punctual.IPunctualBuilder})">
+            <summary>
+            Configures Punctual for a service collection. Typically this is called in ConfigureServices
+            </summary>
+            <param name="services"></param>
+            <param name="configure"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Punctual.ScheduledActionAliasAttribute">
+            <summary>
+            Alias used to configure an action with a certain name in the configuration
+            </summary>
+        </member>
+        <member name="M:Punctual.ScheduledActionAliasAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new alias
+            </summary>
+            <param name="alias"></param>
+        </member>
+        <member name="P:Punctual.ScheduledActionAliasAttribute.Alias">
+            <summary>
+            The alias to use
+            </summary>
+        </member>
     </members>
 </doc>

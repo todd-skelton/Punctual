@@ -4,7 +4,7 @@ namespace Punctual.Internal
 {
     internal class HostedServiceConfiguration<T> : IHostedServiceConfiguration<T>
     {
-        public HostedServiceConfiguration(IHostedServiceConfigurationFactory HostedServiceConfigurationFactory)
+        public HostedServiceConfiguration(IScheduledActionConfigurationFactory HostedServiceConfigurationFactory)
         {
             Configuration = HostedServiceConfigurationFactory.GetConfiguration(typeof(T));
         }

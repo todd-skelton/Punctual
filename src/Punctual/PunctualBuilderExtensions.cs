@@ -12,14 +12,23 @@ using System;
 
 namespace Punctual
 {
+    /// <summary>
+    /// Extensions used to configure Punctual
+    /// </summary>
     public static class PunctualBuilderExtensions
     {
         private static void AddConfiguration(this IPunctualBuilder builder)
         {
-            builder.Services.TryAddSingleton<IHostedServiceConfigurationFactory, HostedServiceConfigurationFactory>();
+            builder.Services.TryAddSingleton<IScheduledActionConfigurationFactory, HostedServiceConfigurationFactory>();
             builder.Services.TryAddSingleton(typeof(IHostedServiceConfiguration<>), typeof(HostedServiceConfiguration<>));
         }
 
+        /// <summary>
+        /// Adds the configuration used to configure Punctual
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IPunctualBuilder AddConfiguration(this IPunctualBuilder builder, IConfiguration configuration)
         {
             builder.AddConfiguration();
@@ -28,7 +37,15 @@ namespace Punctual
             return builder;
         }
 
-
+        /// <summary>
+        /// Adds a new hosted service with options and the action to perform
+        /// </summary>
+        /// <typeparam name="THostedService"></typeparam>
+        /// <typeparam name="THostedServiceOptions"></typeparam>
+        /// <typeparam name="THostedServiceOptionsSetup"></typeparam>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IPunctualBuilder Add<THostedService, THostedServiceOptions, THostedServiceOptionsSetup, TScheduledAction>(this IPunctualBuilder builder)
             where THostedService : class, IHostedService<TScheduledAction>
             where THostedServiceOptions : class, IHostedServiceOptions
@@ -47,6 +64,16 @@ namespace Punctual
             return builder;
         }
 
+        /// <summary>
+        /// Adds a new hosted service with options and the action to perform
+        /// </summary>
+        /// <typeparam name="THostedService"></typeparam>
+        /// <typeparam name="THostedServiceOptions"></typeparam>
+        /// <typeparam name="THostedServiceOptionsSetup"></typeparam>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
         public static IPunctualBuilder Add<THostedService, THostedServiceOptions, THostedServiceOptionsSetup, TScheduledAction>(this IPunctualBuilder builder, Action<THostedServiceOptions> configure)
             where THostedService : class, IHostedService<TScheduledAction>
             where THostedServiceOptions : class, IHostedServiceOptions
@@ -64,12 +91,25 @@ namespace Punctual
             return builder;
         }
 
+        /// <summary>
+        /// Adds a hosted service that will perform actions on a weekly schedule
+        /// </summary>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IPunctualBuilder AddWeekly<TScheduledAction>(this IPunctualBuilder builder)
             where TScheduledAction : class, IScheduledAction
         {
             return builder.Add<WeeklyHostedService<TScheduledAction>, WeeklyHostedServiceOptions<TScheduledAction>, WeeklyHostedServiceOptionsSetup<TScheduledAction>, TScheduledAction>();
         }
 
+        /// <summary>
+        /// Adds a hosted service that will perform actions on a weekly schedule
+        /// </summary>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
         public static IPunctualBuilder AddWeekly<TScheduledAction>(this IPunctualBuilder builder, Action<WeeklyHostedServiceOptions<TScheduledAction>> configure)
             where TScheduledAction : class, IScheduledAction
         {
@@ -84,12 +124,25 @@ namespace Punctual
             return builder;
         }
 
+        /// <summary>
+        /// Adds a hosted service that will perform actions on an interval
+        /// </summary>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IPunctualBuilder AddIntervally<TScheduledAction>(this IPunctualBuilder builder)
             where TScheduledAction : class, IScheduledAction
         {
             return builder.Add<IntervallyHostedService<TScheduledAction>, IntervallyHostedServiceOptions<TScheduledAction>, IntervallyHostedServiceOptionsSetup<TScheduledAction>, TScheduledAction>();
         }
 
+        /// <summary>
+        /// Adds a hosted service that will perform actions on an interval
+        /// </summary>
+        /// <typeparam name="TScheduledAction"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
         public static IPunctualBuilder AddIntervally<TScheduledAction>(this IPunctualBuilder builder, Action<IntervallyHostedServiceOptions<TScheduledAction>> configure)
             where TScheduledAction : class, IScheduledAction
         {

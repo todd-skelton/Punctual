@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Punctual.Internal
 {
-    internal class HostedServiceConfigurationFactory : IHostedServiceConfigurationFactory
+    internal class HostedServiceConfigurationFactory : IScheduledActionConfigurationFactory
     {
         private readonly IEnumerable<PunctualConfiguration> _configurations;
 
