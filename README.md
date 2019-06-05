@@ -16,10 +16,10 @@ Use the `IScheduledAction` interface to create the action you want to perform on
 ```csharp
 public class MyAction : IScheduledAction
 {
-	public Task Action(CancellationToken cancellationToken)
-	{
-		// perform some awesome action here
-	}
+    public Task Action(CancellationToken cancellationToken)
+    {
+        // perform some awesome action here
+    }
 }
 ```
 
@@ -28,33 +28,33 @@ public class MyAction : IScheduledAction
 ```csharp
 public class SendReport : IScheduledAction
 {
-	private readonly ILogger _logger;
-	private readonly IServiceProvider _services;
+    private readonly ILogger _logger;
+    private readonly IServiceProvider _services;
 
-	public SendReport(IServiceProvider services, ILogger<MyAction> logger)
-	{
-		_services = services;
-		_logger = logger;
-	}
+    public SendReport(IServiceProvider services, ILogger<MyAction> logger)
+    {
+        _services = services;
+        _logger = logger;
+    }
 
     public async Task Action(CancellationToken cancellationToken)
     {
-		_logger.LogInformation("Report is being generated.");
+        _logger.LogInformation("Report is being generated.");
 
-		using(var scope = _services.CreateScope())
-		{
-			var db = scope.GetService<MyDbContext>();
-			var reportGenerator = scope.GetService<IReportGenerator>();
-			var emailService = scope.GetServive<IEmailService>();
+        using (var scope = _services.CreateScope())
+        {
+            var db = scope.GetService<MyDbContext>();
+            var reportGenerator = scope.GetService<IReportGenerator>();
+            var emailService = scope.GetServive<IEmailService>();
 
-			var reportItems = await db.ItemsToReport.ToListAsync();
+            var reportItems = await db.ItemsToReport.ToListAsync();
 
-			var report = reportGenerator.Generate(reportItems);
+            var report = reportGenerator.Generate(reportItems);
 
-			emailService.SendReport(report);
-		}
+            emailService.SendReport(report);
+        }
 
-		_logger.LogInformation("Report has finished generating.");
+        _logger.LogInformation("Report has finished generating.");
     }
 }
 ```
@@ -67,8 +67,8 @@ You have two options `AddIntervally` and `AddWeekly`. As the names implies, you 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-	// other services added here
-	// ...
+    // other services added here
+    // ...
 
     services.AddPunctual(configure => configure
         .AddConfiguration(Configuration)
@@ -86,13 +86,13 @@ Add a section to your settings called Punctual. Then, add another section for ea
 
 ```json
 {
-	"Punctual": {
-		"MyAction": {
-			"Frequency": "Seconds",
-			"Period": 10,
-			"RunOnStart": true
-		}	
-	}
+  "Punctual": {
+    "MyAction": {
+      "Frequency": "Seconds",
+      "Period": 10,
+      "RunOnStart": true
+    }
+  }
 }
 ```
 
@@ -108,17 +108,17 @@ If you don't want to use `appsettings.json` or another form of `IConfiguration`,
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-	// other services added here
-	// ...
+    // other services added here
+    // ...
 
     services.AddPunctual(configure => configure
         .AddConfiguration(Configuration)
         .AddIntervally<MyAction>(options =>
-		{
-			options.Frequency = Frequency.Seconds;
-			options.Period = 30;
-			options.RunOnStart = true;
-		})
+        {
+            options.Frequency = Frequency.Seconds;
+            options.Period = 30;
+            options.RunOnStart = true;
+        })
     );
 }
 ```
@@ -131,20 +131,20 @@ Add a section to your settings called Punctual. Then, add another section for ea
 
 ```json
 {
-	"Punctual": {
-		"MyAction": {
-			"Schedule": [
-				{
-					"Days": "Weekdays",
-					"Times": [ "23:59" ]
-				},
-				{
-					"Days": "Weekend",
-					"Times": [ "20:00" ]
-				}
-			]
-		}
-	}
+  "Punctual": {
+    "MyAction": {
+      "Schedule": [
+        {
+          "Days": "Weekdays",
+          "Times": [ "23:59" ]
+        },
+        {
+          "Days": "Weekend",
+          "Times": [ "20:00" ]
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -162,8 +162,8 @@ If you don't want to use `appsettings.json` or another form of `IConfiguration`,
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-	// other services added here
-	// ...
+    // other services added here
+    // ...
 
     services.AddPunctual(configure => configure
         .AddConfiguration(Configuration)
