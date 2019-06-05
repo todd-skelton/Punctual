@@ -8,6 +8,7 @@ namespace Punctual.Weekly
     {
         public DailyScheduleOptions()
         {
+            Times = new List<TimeSpan>();
         }
 
         public DailyScheduleOptions(DaysToRun days, List<TimeSpan> times)
