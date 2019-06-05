@@ -23,6 +23,42 @@ public class MyAction : IScheduledAction
 }
 ```
 
+#### Example
+
+```csharp
+public class SendReport : IScheduledAction
+{
+	private readonly ILogger _logger;
+	private readonly IServiceProvider _services;
+
+	public SendReport(IServiceProvider services, ILogger<MyAction> logger)
+	{
+		_services = services;
+		_logger = logger;
+	}
+
+    public async Task Action(CancellationToken cancellationToken)
+    {
+		_logger.LogInformation("Report is being generated.");
+
+		using(var scope = _services.CreateScope())
+		{
+			var db = scope.GetService<MyDbContext>();
+			var reportGenerator = scope.GetService<IReportGenerator>();
+			var emailService = scope.GetServive<IEmailService>();
+
+			var reportItems = await db.ItemsToReport.ToListAsync();
+
+			var report = reportGenerator.Generate(reportItems);
+
+			emailService.SendReport(report);
+		}
+
+		_logger.LogInformation("Report has finished generating.");
+    }
+}
+```
+
 ### Configuration
 In your `Startup` class, add `using Punctual` and use the `services.AddPunctual()` method to setup your scheduled action.
 
