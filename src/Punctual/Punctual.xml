@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Punctual</name>
+    </assembly>
+    <members>
+        <member name="T:Punctual.EnumExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Enum"/>
+            </summary>
+        </member>
+    </members>
+</doc>
