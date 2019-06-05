@@ -16,10 +16,10 @@ Use the `IScheduledAction` interface to create the action you want to perform on
 ```csharp
 public class MyAction : IScheduledAction
 {
-	public Task Action(CancellationToken cancellationToken)
-	{
-		// perform some awesome action here
-	}
+    public Task Action(CancellationToken cancellationToken)
+    {
+        // perform some awesome action here
+    }
 }
 ```
 
