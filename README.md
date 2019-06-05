@@ -16,10 +16,10 @@ Use the `IScheduledAction` interface to create the action you want to perform on
 ```csharp
 public class MyAction : IScheduledAction
 {
-    public Task Action(CancellationToken cancellationToken)
-    {
+	public Task Action(CancellationToken cancellationToken)
+	{
 		// perform some awesome action here
-    }
+	}
 }
 ```
 
@@ -197,5 +197,4 @@ public void ConfigureServices(IServiceCollection services)
 `Schedule` takes a collection of `DailyScheduleOptions` which is a set of `Days` and `Times` to run. Time is just a timespan from 0-24 hours for the time you want to run.
 
 ### Further help
-
 Please check out the two samples I've provided for addional help on setting up actions.
