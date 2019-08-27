@@ -53,13 +53,10 @@ namespace Punctual
             where TScheduledAction : class, IScheduledAction
         {
             builder.AddConfiguration();
-
-            builder.Services.TryAddSingleton<TScheduledAction>();
-            builder.Services.TryAddSingleton<THostedService>();
-            builder.Services.TryAddSingleton<IHostedService<TScheduledAction>, THostedService>();
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IHostedService, THostedService>());
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<THostedServiceOptions>, THostedServiceOptionsSetup>());
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IOptionsChangeTokenSource<THostedServiceOptions>, HostedServiceOptionsChangeTokenSource<THostedServiceOptions, THostedService>>());
+            builder.Services.TryAddTransient<TScheduledAction>();
+            builder.Services.AddHostedService<THostedService>();
 
             return builder;
         }
