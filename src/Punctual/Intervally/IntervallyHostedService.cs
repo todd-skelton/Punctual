@@ -57,6 +57,7 @@ namespace Punctual.Intervally
                 if (!cancellationTokenSource.IsCancellationRequested)
                 {
                     SetNextRun();
+
                     await RunAction(cancellationTokenSource.Token);
                 }
             }

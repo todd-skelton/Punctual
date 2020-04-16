@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +29,10 @@ namespace Punctual
         /// </summary>
         protected readonly TScheduledAction _scheduledAction;
         /// <summary>
+        /// Logger for any exceptions an action throws
+        /// </summary>
+        protected readonly ILogger<HostedServiceBase<TScheduledAction>> _logger;
+        /// <summary>
         /// Whether or not the service is started
         /// </summary>
         protected bool _isStarted;
@@ -36,9 +41,11 @@ namespace Punctual
         /// Initializes a hosted service with the action to perform
         /// </summary>
         /// <param name="scheduledAction"></param>
-        protected HostedServiceBase(TScheduledAction scheduledAction)
+        /// <param name="logger"></param>
+        protected HostedServiceBase(TScheduledAction scheduledAction, ILogger<HostedServiceBase<TScheduledAction>> logger = default)
         {
             _scheduledAction = scheduledAction ?? throw new ArgumentNullException(nameof(scheduledAction));
+            _logger = logger;
             _isStarted = false;
         }
 
@@ -96,7 +103,17 @@ namespace Punctual
         /// <returns></returns>
         protected virtual async Task RunAction(CancellationToken cancellationToken)
         {
-            await _scheduledAction.Action(cancellationToken);
+            try
+            {
+                await _scheduledAction.Action(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if(_logger is ILogger)
+                {
+                    _logger.LogError(ex, $"Scheduled Action: {typeof(TScheduledAction).FullName} threw an exception.");
+                }
+            }
         }
 
         /// <summary>

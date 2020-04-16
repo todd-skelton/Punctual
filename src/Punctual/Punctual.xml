@@ -43,16 +43,22 @@
             Scheduled action that will be performed
             </summary>
         </member>
+        <member name="F:Punctual.HostedServiceBase`1._logger">
+            <summary>
+            Logger for any exceptions an action throws
+            </summary>
+        </member>
         <member name="F:Punctual.HostedServiceBase`1._isStarted">
             <summary>
             Whether or not the service is started
             </summary>
         </member>
-        <member name="M:Punctual.HostedServiceBase`1.#ctor(`0)">
+        <member name="M:Punctual.HostedServiceBase`1.#ctor(`0,Microsoft.Extensions.Logging.ILogger{Punctual.HostedServiceBase{`0}})">
             <summary>
             Initializes a hosted service with the action to perform
             </summary>
             <param name="scheduledAction"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:Punctual.HostedServiceBase`1.StartAsync(System.Threading.CancellationToken)">
             <summary>
