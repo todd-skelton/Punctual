@@ -5,7 +5,6 @@
     <RootNamespace>Punctual</RootNamespace>
     <Description>Scheduled tasks made easy for .NET hosting.</Description>
     <DocumentationFile>C:\Users\admin\Source\Repos\Punctual\src\Punctual\Punctual.xml</DocumentationFile>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
