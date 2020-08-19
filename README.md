@@ -55,7 +55,7 @@ public class SendReport : IScheduledAction
 }
 ```
 
-*Note:* Each action is executed in its own scope. You can use dependency injection to inject services as needed.
+*Note:* Every execution of an action is performed in its own scope. You can use dependency injection to inject services as needed. Scoped services like Entity Framework's `DbContext` will work correctly with the default settings.
 
 ### Configuration
 In your `Startup` class, add `using Punctual` and use the `services.AddPunctual()` method to setup your scheduled action.
