@@ -8,7 +8,7 @@ namespace ConsoleSample
     [ScheduledActionAlias("MyInterval")]
     public class MyIntervalScheduledAction : IScheduledAction
     {
-        public Task Action(CancellationToken cancellationToken)
+        public Task Execute(CancellationToken cancellationToken)
         {
             Console.WriteLine($"Interval action triggered at {DateTimeOffset.Now}.");
 

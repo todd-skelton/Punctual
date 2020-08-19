@@ -16,7 +16,7 @@ namespace WebSample
             _logger = logger;
         }
 
-        public Task Action(CancellationToken cancellationToken)
+        public Task Execute(CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Interval action triggered at {DateTimeOffset.Now}.");
 

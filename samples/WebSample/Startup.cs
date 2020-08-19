@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Punctual;
-using Punctual.Intervally;
+using Punctual.Periodically;
 using Punctual.Weekly;
 using System;
 using System.Collections.Generic;
@@ -35,12 +35,12 @@ namespace WebSample
 
             services.AddPunctual(configure => configure
                 .AddConfiguration(Configuration)
-                .AddIntervally<MyIntervalScheduledAction>() // action scheduled to run at intervals configured with appsettings.json
+                .AddPeriodically<MyIntervalScheduledAction>() // action scheduled to run at intervals configured with appsettings.json
                 .AddWeekly<MyWeeklyScheduledAction>(options =>
                 {
                     options.Schedule.Add(new DailyScheduleOptions(DaysToRun.All, listOfTimes));
                 }) // action scheduled to run at certain times during the week
-                .AddIntervally<LongRunningAction>(options =>
+                .AddPeriodically<LongRunningAction>(options =>
                 {
                     options.Frequency = Frequency.Seconds;
                     options.Period = 30;

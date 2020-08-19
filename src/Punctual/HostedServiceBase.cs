@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,10 +26,6 @@ namespace Punctual
         /// </summary>
         protected Task _scheduledActionTask;
         /// <summary>
-        /// Scheduled action that will be performed
-        /// </summary>
-        protected readonly TScheduledAction _scheduledAction;
-        /// <summary>
         /// Logger for any exceptions an action throws
         /// </summary>
         protected readonly ILogger<HostedServiceBase<TScheduledAction>> _logger;
@@ -36,15 +33,19 @@ namespace Punctual
         /// Whether or not the service is started
         /// </summary>
         protected bool _isStarted;
+        /// <summary>
+        /// Creates a new scope each time an action is executed
+        /// </summary>
+        protected IServiceScopeFactory _serviceScopeFactory;
 
         /// <summary>
         /// Initializes a hosted service with the action to perform
         /// </summary>
-        /// <param name="scheduledAction"></param>
+        /// <param name="serviceScopeFactory"></param>
         /// <param name="logger"></param>
-        protected HostedServiceBase(TScheduledAction scheduledAction, ILogger<HostedServiceBase<TScheduledAction>> logger = default)
+        protected HostedServiceBase(IServiceScopeFactory serviceScopeFactory, ILogger<HostedServiceBase<TScheduledAction>> logger = default)
         {
-            _scheduledAction = scheduledAction ?? throw new ArgumentNullException(nameof(scheduledAction));
+            _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
             _logger = logger;
             _isStarted = false;
         }
@@ -103,9 +104,11 @@ namespace Punctual
         /// <returns></returns>
         protected virtual async Task RunAction(CancellationToken cancellationToken)
         {
+            using var scope = _serviceScopeFactory.CreateScope();
+            var scheduledAction = scope.ServiceProvider.GetRequiredService<TScheduledAction>();
             try
             {
-                await _scheduledAction.Action(cancellationToken);
+                await scheduledAction.Execute(cancellationToken);
             }
             catch (Exception ex)
             {

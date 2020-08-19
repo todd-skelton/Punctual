@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Punctual.Weekly
         private IDisposable _optionsReloadToken;
 
 
-        public WeeklyHostedService(IOptionsMonitor<WeeklyHostedServiceOptions<TScheduledAction>> options, TScheduledAction scheduledAction) : base(scheduledAction)
+        public WeeklyHostedService(IOptionsMonitor<WeeklyHostedServiceOptions<TScheduledAction>> options, IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
             _optionsReloadToken = options.OnChange(ReloadOptions);
             ReloadOptions(options.CurrentValue);

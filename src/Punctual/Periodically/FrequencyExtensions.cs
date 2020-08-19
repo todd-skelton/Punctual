@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Punctual.Intervally
+namespace Punctual.Periodically
 {
     public static class FrequencyExtensions
     {
-        public static TimeSpan GetIntervally(this Frequency frequency, int period)
+        public static TimeSpan GetPeriodically(this Frequency frequency, int period)
         {
             switch (frequency)
             {

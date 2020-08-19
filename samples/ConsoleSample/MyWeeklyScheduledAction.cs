@@ -8,7 +8,7 @@ namespace ConsoleSample
     [ScheduledActionAlias("MyWeekly")]
     public class MyWeeklyScheduledAction : IScheduledAction
     {
-        public Task Action(CancellationToken cancellationToken)
+        public Task Execute(CancellationToken cancellationToken)
         {
             Console.WriteLine($"Weekly scheduled action triggered at {DateTimeOffset.Now}.");
 

@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Punctual.Internal;
-using Punctual.Intervally;
-using Punctual.Intervally.Internal;
+using Punctual.Periodically;
+using Punctual.Periodically.Internal;
 using Punctual.Weekly;
 using Punctual.Weekly.Internal;
 using System;
@@ -127,10 +127,10 @@ namespace Punctual
         /// <typeparam name="TScheduledAction"></typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IPunctualBuilder AddIntervally<TScheduledAction>(this IPunctualBuilder builder)
+        public static IPunctualBuilder AddPeriodically<TScheduledAction>(this IPunctualBuilder builder)
             where TScheduledAction : class, IScheduledAction
         {
-            return builder.Add<IntervallyHostedService<TScheduledAction>, IntervallyHostedServiceOptions<TScheduledAction>, IntervallyHostedServiceOptionsSetup<TScheduledAction>, TScheduledAction>();
+            return builder.Add<PeriodicallyHostedService<TScheduledAction>, PeriodicallyHostedServiceOptions<TScheduledAction>, PeriodicallyHostedServiceOptionsSetup<TScheduledAction>, TScheduledAction>();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Punctual
         /// <param name="builder"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IPunctualBuilder AddIntervally<TScheduledAction>(this IPunctualBuilder builder, Action<IntervallyHostedServiceOptions<TScheduledAction>> configure)
+        public static IPunctualBuilder AddPeriodically<TScheduledAction>(this IPunctualBuilder builder, Action<PeriodicallyHostedServiceOptions<TScheduledAction>> configure)
             where TScheduledAction : class, IScheduledAction
         {
             if (configure == null)
@@ -148,7 +148,7 @@ namespace Punctual
                 throw new ArgumentNullException(nameof(configure));
             }
 
-            builder.AddIntervally<TScheduledAction>();
+            builder.AddPeriodically<TScheduledAction>();
             builder.Services.Configure(configure);
 
             return builder;

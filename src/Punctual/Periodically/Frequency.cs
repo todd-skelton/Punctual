@@ -1,4 +1,4 @@
-﻿namespace Punctual.Intervally
+﻿namespace Punctual.Periodically
 {
     public enum Frequency
     {

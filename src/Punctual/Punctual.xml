@@ -38,11 +38,6 @@
             Task to track the scheduled action
             </summary>
         </member>
-        <member name="F:Punctual.HostedServiceBase`1._scheduledAction">
-            <summary>
-            Scheduled action that will be performed
-            </summary>
-        </member>
         <member name="F:Punctual.HostedServiceBase`1._logger">
             <summary>
             Logger for any exceptions an action throws
@@ -53,11 +48,16 @@
             Whether or not the service is started
             </summary>
         </member>
-        <member name="M:Punctual.HostedServiceBase`1.#ctor(`0,Microsoft.Extensions.Logging.ILogger{Punctual.HostedServiceBase{`0}})">
+        <member name="F:Punctual.HostedServiceBase`1._serviceScopeFactory">
+            <summary>
+            Creates a new scope each time an action is executed
+            </summary>
+        </member>
+        <member name="M:Punctual.HostedServiceBase`1.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Microsoft.Extensions.Logging.ILogger{Punctual.HostedServiceBase{`0}})">
             <summary>
             Initializes a hosted service with the action to perform
             </summary>
-            <param name="scheduledAction"></param>
+            <param name="serviceScopeFactory"></param>
             <param name="logger"></param>
         </member>
         <member name="M:Punctual.HostedServiceBase`1.StartAsync(System.Threading.CancellationToken)">
@@ -139,7 +139,7 @@
             Interface used to implement a scheduled action that can be performed by a hosted service
             </summary>
         </member>
-        <member name="M:Punctual.IScheduledAction.Action(System.Threading.CancellationToken)">
+        <member name="M:Punctual.IScheduledAction.Execute(System.Threading.CancellationToken)">
             <summary>
             The action to perform
             </summary>
@@ -211,7 +211,7 @@
             <param name="configure"></param>
             <returns></returns>
         </member>
-        <member name="M:Punctual.PunctualBuilderExtensions.AddIntervally``1(Punctual.IPunctualBuilder)">
+        <member name="M:Punctual.PunctualBuilderExtensions.AddPeriodically``1(Punctual.IPunctualBuilder)">
             <summary>
             Adds a hosted service that will perform actions on an interval
             </summary>
@@ -219,7 +219,7 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:Punctual.PunctualBuilderExtensions.AddIntervally``1(Punctual.IPunctualBuilder,System.Action{Punctual.Intervally.IntervallyHostedServiceOptions{``0}})">
+        <member name="M:Punctual.PunctualBuilderExtensions.AddPeriodically``1(Punctual.IPunctualBuilder,System.Action{Punctual.Periodically.PeriodicallyHostedServiceOptions{``0}})">
             <summary>
             Adds a hosted service that will perform actions on an interval
             </summary>

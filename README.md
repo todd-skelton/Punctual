@@ -37,7 +37,7 @@ public class SendReport : IScheduledAction
         _logger = logger;
     }
 
-    public async Task Action(CancellationToken cancellationToken)
+    public async Task Execute(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Report is being generated.");
 
@@ -62,7 +62,7 @@ public class SendReport : IScheduledAction
 ### Configuration
 In your `Startup` class, add `using Punctual` and use the `services.AddPunctual()` method to setup your scheduled action.
 
-You have two options `AddIntervally` and `AddWeekly`. As the names implies, you can run the action on a set interval, or have a weekly schedule. You can chain as many actions as you want to run.
+You have two options `AddPeriodically` and `AddWeekly`. As the names implies, you can run the action on a set interval, or have a weekly schedule. You can chain as many actions as you want to run.
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -72,13 +72,13 @@ public void ConfigureServices(IServiceCollection services)
 
     services.AddPunctual(configure => configure
         .AddConfiguration(Configuration)
-        .AddIntervally<MyAction>()
+        .AddPeriodically<MyAction>()
         .AddWeekly<MyAction>()
     );
 }
 ```
 
-### Intervally
+### Periodically
 You can configure an action scheduled at intervals using your configuration (like `appsettings.json`) or manually.
 
 #### Using `appsettings.json`
@@ -113,7 +113,7 @@ public void ConfigureServices(IServiceCollection services)
 
     services.AddPunctual(configure => configure
         .AddConfiguration(Configuration)
-        .AddIntervally<MyAction>(options =>
+        .AddPeriodically<MyAction>(options =>
         {
             options.Frequency = Frequency.Seconds;
             options.Period = 30;

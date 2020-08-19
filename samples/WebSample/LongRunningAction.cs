@@ -16,7 +16,7 @@ namespace WebSample
             _logger = logger;
         }
 
-        public async Task Action(CancellationToken cancellationToken)
+        public async Task Execute(CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Long running action started at {DateTimeOffset.Now}.");
 

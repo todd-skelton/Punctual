@@ -1,18 +1,18 @@
-﻿using Microsoft.Extensions.Options;
-using Punctual.Intervally;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Punctual.Intervally
+namespace Punctual.Periodically
 {
-    public class IntervallyHostedService<TScheduledAction> : HostedServiceBase<TScheduledAction>
+    public class PeriodicallyHostedService<TScheduledAction> : HostedServiceBase<TScheduledAction>
     where TScheduledAction : class, IScheduledAction
     {
-        private IntervallyHostedServiceOptions<TScheduledAction> _options;
+        private PeriodicallyHostedServiceOptions<TScheduledAction> _options;
         private IDisposable _optionsReloadToken;
 
-        public IntervallyHostedService(IOptionsMonitor<IntervallyHostedServiceOptions<TScheduledAction>> options, TScheduledAction scheduledAction) : base(scheduledAction)
+        public PeriodicallyHostedService(IOptionsMonitor<PeriodicallyHostedServiceOptions<TScheduledAction>> options, IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
             _optionsReloadToken = options.OnChange(ReloadOptions);
             ReloadOptions(options.CurrentValue);
@@ -22,10 +22,10 @@ namespace Punctual.Intervally
 
         private void SetNextRun()
         {
-            NextRun = NextRun.Add(_options.Frequency.GetIntervally(_options.Period));
+            NextRun = NextRun.Add(_options.Frequency.GetPeriodically(_options.Period));
         }
 
-        private async void ReloadOptions(IntervallyHostedServiceOptions<TScheduledAction> options)
+        private async void ReloadOptions(PeriodicallyHostedServiceOptions<TScheduledAction> options)
         {
             if (_options == null || !_options.Equals(options))
             {

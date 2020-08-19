@@ -13,6 +13,6 @@ namespace Punctual
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task Action(CancellationToken cancellationToken);
+        Task Execute(CancellationToken cancellationToken);
     }
 }

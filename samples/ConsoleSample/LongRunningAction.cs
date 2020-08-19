@@ -8,7 +8,7 @@ namespace ConsoleSample
     [ScheduledActionAlias("Long")]
     public class LongRunningAction : IScheduledAction
     {
-        public async Task Action(CancellationToken cancellationToken)
+        public async Task Execute(CancellationToken cancellationToken)
         {
             Console.WriteLine($"Long running action started at {DateTimeOffset.Now}.");
 
