@@ -24,40 +24,38 @@ public class MyAction : IScheduledAction
 ```
 
 #### Example
-
 ```csharp
 public class SendReport : IScheduledAction
 {
-    private readonly ILogger _logger;
-    private readonly IServiceProvider _services;
+    private readonly MyDbContext db;
+    private readonly IReportGenerator reportGenerator;
+    private readonly IEmailService emailService;
+    private readonly ILogger logger;
 
-    public SendReport(IServiceProvider services, ILogger<MyAction> logger)
+    public SendReport(MyDbContext db, IReportGenerator reportGenerator, IEmailService emailService, ILogger<MyAction> logger)
     {
-        _services = services;
-        _logger = logger;
+        this.db = db;
+        this.reportGenerator = reportGenerator;
+        this.emailService = emailService;
+        this.logger = logger;
     }
 
     public async Task Execute(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Report is being generated.");
 
-        using (var scope = _services.CreateScope())
-        {
-            var db = scope.GetService<MyDbContext>();
-            var reportGenerator = scope.GetService<IReportGenerator>();
-            var emailService = scope.GetServive<IEmailService>();
+        var reportItems = await db.ItemsToReport.ToListAsync();
 
-            var reportItems = await db.ItemsToReport.ToListAsync();
+        var report = await reportGenerator.GenerateAsync(reportItems);
 
-            var report = reportGenerator.Generate(reportItems);
-
-            emailService.SendReport(report);
-        }
+        await emailService.SendReportAsync(report);
 
         _logger.LogInformation("Report has finished generating.");
     }
 }
 ```
+
+*Note:* Each action is executed in its own scope. You can use dependency injection to inject services as needed.
 
 ### Configuration
 In your `Startup` class, add `using Punctual` and use the `services.AddPunctual()` method to setup your scheduled action.
